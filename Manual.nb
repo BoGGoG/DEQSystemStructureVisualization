@@ -1,0 +1,608 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     21904,        600]
+NotebookOptionsPosition[     20178,        563]
+NotebookOutlinePosition[     20578,        579]
+CellTagsIndexPosition[     20535,        576]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The DEQSystemStructureVisualization Package", "Title",
+ CellChangeTimes->{{3.806998421485973*^9, 
+  3.806998429455027*^9}},ExpressionUUID->"2f6df510-2231-4dfd-ad79-\
+dc54d201240f"],
+
+Cell["\<\
+Author: Marco Knipfer
+University of Alabama
+2020\
+\>", "Text",
+ CellChangeTimes->{{3.806998432326439*^9, 
+  3.8069984445089397`*^9}},ExpressionUUID->"a0423d92-325c-4f1e-9c6e-\
+52f5cfd6e2f5"],
+
+Cell["\<\
+The usage of the package is for large systems of differential equations with \
+long equations.
+With it you can find out which functions and derivatives appear in which \
+equation.\
+\>", "Text",
+ CellChangeTimes->{{3.806998760098775*^9, 
+  3.806998821604164*^9}},ExpressionUUID->"28c51982-7495-405a-bbc5-\
+5cbcea02d141"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<source/DEQSystemStructureVisualization.wl\>\"", 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.8069984682426577`*^9, 3.806998475672619*^9}, {
+  3.806998513268701*^9, 3.806998541831066*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"f1b76bdf-efd4-439c-ad54-c0438d15b279"],
+
+Cell["\<\
+Define all functions that appear in the system of differential equations.
+You can also only put those that you want to keep track of.\
+\>", "Text",
+ CellChangeTimes->{{3.806998564236927*^9, 
+  3.806998596612054*^9}},ExpressionUUID->"96d61490-5d0e-44b4-af62-\
+6161898d088c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fields", " ", "=", " ", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"f", "[", "x", "]"}], ",", " ", 
+    RowBox[{"g", "[", 
+     RowBox[{"x", ",", "y"}], "]"}]}], "}"}]}]], "Input",
+ CellLabel->"In[6]:=",ExpressionUUID->"8828eb39-abe0-4093-bdf5-25e7432f035d"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"f", "[", "x", "]"}], ",", 
+   RowBox[{"g", "[", 
+    RowBox[{"x", ",", "y"}], "]"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8069986009612017`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"106fc045-f25b-4a67-9dbb-6ef4b21e4fb2"]
+}, Open  ]],
+
+Cell["\<\
+Write down the system of differential equations. Note that we only write the \
+LHS of LHS==0.\
+\>", "Text",
+ CellChangeTimes->{{3.806998609618279*^9, 
+  3.8069986464073677`*^9}},ExpressionUUID->"45ac7c18-c980-424e-b122-\
+717bf020bdea"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"deq1", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"qf", " ", 
+     RowBox[{
+      RowBox[{"f", "''"}], "[", "x", "]"}]}], " ", "+", " ", 
+    RowBox[{"pf", " ", 
+     RowBox[{
+      RowBox[{"f", "'"}], "[", "x", "]"}]}], " ", "+", " ", 
+    RowBox[{"wf", " ", 
+     RowBox[{"f", "[", "x", "]"}]}], " ", "+", " ", "s1", " ", "+", " ", 
+    RowBox[{"qgx", " ", 
+     RowBox[{"D", "[", 
+      RowBox[{
+       RowBox[{"g", "[", 
+        RowBox[{"x", ",", "y"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "2"}], "}"}]}], "]"}]}], " ", "+", " ", 
+    RowBox[{"qgy", " ", 
+     RowBox[{"D", "[", 
+      RowBox[{
+       RowBox[{"g", "[", 
+        RowBox[{"x", ",", "y"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"y", ",", "2"}], "}"}]}], "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"deq2", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"qf2", " ", 
+     RowBox[{
+      RowBox[{"f", "''"}], "[", "x", "]"}]}], " ", "+", " ", 
+    RowBox[{"qgxy2", " ", 
+     RowBox[{"D", "[", 
+      RowBox[{
+       RowBox[{"g", "[", 
+        RowBox[{"x", ",", "y"}], "]"}], ",", " ", "x", ",", "y"}], "]"}]}], 
+    " ", "+", " ", 
+    RowBox[{"wg2", " ", 
+     RowBox[{"g", "[", 
+      RowBox[{"x", ",", "y"}], "]"}]}], " ", "+", " ", "s2"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"deqs", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"deq1", ",", " ", "deq2"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"deqs", " ", "//", " ", "TableForm"}]}], "Input",
+ CellChangeTimes->{{3.806998618921792*^9, 3.806998627566312*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"2a0b9a30-c52e-43b0-b62b-1e5165b176de"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      RowBox[{"s1", "+", 
+       RowBox[{"wf", " ", 
+        RowBox[{"f", "[", "x", "]"}]}], "+", 
+       RowBox[{"pf", " ", 
+        RowBox[{
+         SuperscriptBox["f", "\[Prime]",
+          MultilineFunction->None], "[", "x", "]"}]}], "+", 
+       RowBox[{"qf", " ", 
+        RowBox[{
+         SuperscriptBox["f", "\[Prime]\[Prime]",
+          MultilineFunction->None], "[", "x", "]"}]}], "+", 
+       RowBox[{"qgy", " ", 
+        RowBox[{
+         SuperscriptBox["g", 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"0", ",", "2"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}], "+", 
+       RowBox[{"qgx", " ", 
+        RowBox[{
+         SuperscriptBox["g", 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"2", ",", "0"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}]}]},
+     {
+      RowBox[{"s2", "+", 
+       RowBox[{"wg2", " ", 
+        RowBox[{"g", "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}], "+", 
+       RowBox[{"qf2", " ", 
+        RowBox[{
+         SuperscriptBox["f", "\[Prime]\[Prime]",
+          MultilineFunction->None], "[", "x", "]"}]}], "+", 
+       RowBox[{"qgxy2", " ", 
+        RowBox[{
+         SuperscriptBox["g", 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"1", ",", "1"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}]}]}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.5599999999999999]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}],
+   Column],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.806998616401956*^9, 3.806998627788402*^9}},
+ CellLabel->
+  "Out[16]//TableForm=",ExpressionUUID->"491af45b-8efd-44b8-8ab3-\
+23d327ca1955"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "ShowDEQSystemStructure"}]], "Input",
+ CellChangeTimes->{{3.806998649796805*^9, 3.8069986534182568`*^9}},
+ CellLabel->"In[17]:=",ExpressionUUID->"bc499161-77c1-47a6-906e-808251f4aa92"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"ShowDEQSystemStructure[DEQs, fields] prints a table \
+showing which derivatives of the fields are in which equation.\\nInput:\\n- \
+DEQs: A system of differential equations, only LHS of LHS==0\\n- fields: The \
+fields including their arguments, e.g. f[x], g[x,y], \
+...\\n\\nOutput:\\nTable:\\n- rows: Number of the DEQ: DEQ 1, DEQ 2, ...\\n- \
+cols: order of derivative: 0 derivatives, 1 derivative, 2 derivatives, ...\\n\
+\\nOptions:\\n- MaxDerivativeOrder: Default 2. I haven't yet written code to \
+do this automatically\\n \"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Attributes\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Attributes\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Attributes", "Tooltip"]& ], 
+                   RowBox[{"{", 
+                    RowBox[{"Protected", ",", "ReadProtected"}], "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], \
+"\<\"DEQSystemStructureVisualization`ShowDEQSystemStructure\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"ShowDEQSystemStructure[DEQs, fields] prints a table \
+showing which derivatives of the fields are in which equation.\\nInput:\\n- \
+DEQs: A system of differential equations, only LHS of LHS==0\\n- fields: The \
+fields including their arguments, e.g. f[x], g[x,y], \
+...\\n\\nOutput:\\nTable:\\n- rows: Number of the DEQ: DEQ 1, DEQ 2, ...\\n- \
+cols: order of derivative: 0 derivatives, 1 derivative, 2 derivatives, ...\\n\
+\\nOptions:\\n- MaxDerivativeOrder: Default 2. I haven't yet written code to \
+do this automatically\\n \"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {4., 6.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {4., 6.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "ShowDEQSystemStructure[DEQs, fields] prints a table showing which \
+derivatives of the fields are in which equation.\nInput:\n- DEQs: A system of \
+differential equations, only LHS of LHS==0\n- fields: The fields including \
+their arguments, e.g. f[x], g[x,y], ...\n\nOutput:\nTable:\n- rows: Number of \
+the DEQ: DEQ 1, DEQ 2, ...\n- cols: order of derivative: 0 derivatives, 1 \
+derivative, 2 derivatives, ...\n\nOptions:\n- MaxDerivativeOrder: Default 2. \
+I haven't yet written code to do this automatically\n ", "Documentation" -> 
+    None, "OwnValues" -> None, "UpValues" -> None, "DownValues" -> None, 
+    "SubValues" -> None, "DefaultValues" -> None, "NValues" -> None, 
+    "FormatValues" -> None, "Options" -> None, 
+    "Attributes" -> {Protected, ReadProtected}, "FullName" -> 
+    "DEQSystemStructureVisualization`ShowDEQSystemStructure"], 
+   False]]], "Output",
+ CellChangeTimes->{3.8069986538929787`*^9},
+ CellLabel->"Out[17]=",ExpressionUUID->"7d3356d0-9871-4d93-8aab-f10150403f84"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ShowDEQSystemStructure", "[", 
+  RowBox[{"deqs", ",", " ", "fields", ",", " ", 
+   RowBox[{"\"\<MaxDerivativeOrder\>\"", "->", "2"}]}], "]"}]], "Input",
+ CellLabel->"In[18]:=",ExpressionUUID->"092b6cd9-8ea1-436b-84ad-26674e4cc1ef"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      StyleBox["\[Null]",
+       ShowStringCharacters->False], 
+      TagBox["\<\"0th derivatives\"\>",
+       HoldForm], 
+      TagBox["\<\"1st derivatives\"\>",
+       HoldForm], 
+      TagBox["\<\"2nd derivatives\"\>",
+       HoldForm]},
+     {
+      TagBox["\<\"DEQ 1\"\>",
+       HoldForm], 
+      RowBox[{"{", 
+       RowBox[{"f", "[", "x", "]"}], "}"}], 
+      RowBox[{"{", 
+       RowBox[{
+        SuperscriptBox["f", "\[Prime]",
+         MultilineFunction->None], "[", "x", "]"}], "}"}], 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox["f", "\[Prime]\[Prime]",
+          MultilineFunction->None], "[", "x", "]"}], ",", 
+        RowBox[{
+         SuperscriptBox["g", 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"2", ",", "0"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x", ",", "y"}], "]"}], ",", 
+        RowBox[{
+         SuperscriptBox["g", 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"0", ",", "2"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}], "}"}]},
+     {
+      TagBox["\<\"DEQ 2\"\>",
+       HoldForm], 
+      RowBox[{"{", 
+       RowBox[{"g", "[", 
+        RowBox[{"x", ",", "y"}], "]"}], "}"}], 
+      RowBox[{"{", "}"}], 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox["f", "\[Prime]\[Prime]",
+          MultilineFunction->None], "[", "x", "]"}], ",", 
+        RowBox[{
+         SuperscriptBox["g", 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"1", ",", "1"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x", ",", "y"}], "]"}]}], "}"}]}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+    GridBoxDividers->{
+     "Columns" -> {False, True, {False}, False}, 
+      "Rows" -> {False, True, {False}, False}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[2.0999999999999996`]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}],
+   {OutputFormsDump`HeadedRows, OutputFormsDump`HeadedColumns}],
+  Function[BoxForm`e$, 
+   TableForm[
+   BoxForm`e$, 
+    TableHeadings -> {{"DEQ 1", "DEQ 2"}, {
+      "0th derivatives", "1st derivatives", "2nd derivatives"}}, TableDepth -> 
+    2, TableAlignments -> Left]]]], "Print",
+ CellChangeTimes->{3.8069986639513273`*^9},
+ CellLabel->
+  "During evaluation of \
+In[18]:=",ExpressionUUID->"eae24039-d98f-4033-a9e7-4c9477863c37"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1026.75, 1059.75},
+WindowMargins->{{774, Automatic}, {4.5, Automatic}},
+FrontEndVersion->"12.1 for Linux x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"e0b62975-a6f1-4732-ac7b-d2d69088aa1c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 186, 3, 98, "Title",ExpressionUUID->"2f6df510-2231-4dfd-ad79-dc54d201240f"],
+Cell[769, 27, 200, 7, 81, "Text",ExpressionUUID->"a0423d92-325c-4f1e-9c6e-52f5cfd6e2f5"],
+Cell[972, 36, 329, 8, 58, "Text",ExpressionUUID->"28c51982-7495-405a-bbc5-5cbcea02d141"],
+Cell[1304, 46, 431, 9, 51, "Input",ExpressionUUID->"f1b76bdf-efd4-439c-ad54-c0438d15b279"],
+Cell[1738, 57, 283, 6, 58, "Text",ExpressionUUID->"96d61490-5d0e-44b4-af62-6161898d088c"],
+Cell[CellGroupData[{
+Cell[2046, 67, 280, 7, 29, "Input",ExpressionUUID->"8828eb39-abe0-4093-bdf5-25e7432f035d"],
+Cell[2329, 76, 278, 7, 33, "Output",ExpressionUUID->"106fc045-f25b-4a67-9dbb-6ef4b21e4fb2"]
+}, Open  ]],
+Cell[2622, 86, 245, 6, 35, "Text",ExpressionUUID->"45ac7c18-c980-424e-b122-717bf020bdea"],
+Cell[CellGroupData[{
+Cell[2892, 96, 1649, 48, 92, "Input",ExpressionUUID->"2a0b9a30-c52e-43b0-b62b-1e5165b176de"],
+Cell[4544, 146, 2117, 66, 88, "Output",ExpressionUUID->"491af45b-8efd-44b8-8ab3-23d327ca1955"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6698, 217, 212, 3, 29, "Input",ExpressionUUID->"bc499161-77c1-47a6-906e-808251f4aa92"],
+Cell[6913, 222, 10274, 242, 365, "Output",ExpressionUUID->"7d3356d0-9871-4d93-8aab-f10150403f84"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17224, 469, 255, 4, 29, "Input",ExpressionUUID->"092b6cd9-8ea1-436b-84ad-26674e4cc1ef"],
+Cell[17482, 475, 2668, 84, 64, "Print",ExpressionUUID->"eae24039-d98f-4033-a9e7-4c9477863c37"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
