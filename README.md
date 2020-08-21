@@ -1,5 +1,5 @@
 # DEQSystemStructureVisualization
-Mathematica package for visually inspecting the structure of a system of differential equations
+Mathematica package for visually inspecting the structure of a system of differential equations.
 
 
 Usage
@@ -22,6 +22,12 @@ ShowDEQSystemStructure[deqs, fields, "MaxDerivativeOrder"->2]
 ```
 
 ![Output screenshot](/screenshots/outputScreenshot.png)
+
+Works for any order (specify "MaxDerivativeOrder" correctly!) and the functions can have as many arguments as you want.
+
+ToDo
+----------------------------------------
+- Automatically find "MaxDerivativeOrder"
 
 Author
 ----------------------------------------
