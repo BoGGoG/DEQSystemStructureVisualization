@@ -22,3 +22,8 @@ ShowDEQSystemStructure[deqs, fields, "MaxDerivativeOrder"->2]
 ```
 
 ![Output screenshot](/screenshots/outputScreenshot.png)
+
+Author
+----------------------------------------
+Marco Knipfer   
+University of Alabama
